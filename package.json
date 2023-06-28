@@ -1,0 +1,17 @@
+{
+  "name": "disboard-filter",
+  "version": "0.0.1",
+  "description": "A small extension to filter out already seen servers on disboard",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "web-ext run --source-dir=extension --verbose",
+    "build": "web-ext build --source-dir=extension --artifacts-dir=build"
+  },
+  "keywords": [
+    "extension",
+    "disboard"
+  ],
+  "author": "louistmt",
+  "license": "ISC",
+  "private": true
+}
