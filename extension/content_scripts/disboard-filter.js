@@ -2,7 +2,7 @@
     console.log("Activating Disboard filter");
 
     // Get the element containing the server elements
-    const container = document.querySelector("div.columns:nth-child(5)");
+    const container = document.querySelector("div.listing");
 
     // Get the server elements
     const serverElements = [...container.querySelectorAll("div.column div.listing-card")];

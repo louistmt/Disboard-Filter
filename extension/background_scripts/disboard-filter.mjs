@@ -93,13 +93,20 @@ async function handleFilter(message, reply) {
     const tags = (await IDB.getAll(db, TAGS_STORE)).map(t => t.tag);
     const tagsSet = new Set(tags);
 
-    console.log(servers);
-
     for (let server of servers) {
-        const {serverId, serverTag} = server;
+        const {serverId, serverTags} = server;
+
         const result = (await IDB.get(db, VISITED_STORE, serverId));
-        if (result || tagsSet.has(serverTag)) {
+        if (result) {
             blacklisted.push(server);
+            continue;
+        }
+
+        for (let serverTag of serverTags) {
+            if (tagsSet.has(serverTag)) {
+                blacklisted.push(server);
+                break;
+            }
         }
     }
 
