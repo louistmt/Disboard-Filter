@@ -2,10 +2,18 @@
     "manifest_version": 2,
     "version": "1.0",
     "name": "Disboard Filter",
+    "permissions": [
+        "storage"
+    ],
     "content_scripts": [
         {
-            "matches": "<all_urls>",
-            "js": "content_scripts/disboard-filter.js"
+            "matches": ["https://disboard.org/servers*"],
+            "js": ["content_scripts/disboard-filter.js"]
         }
-    ]
+    ],
+    "background": {
+        "scripts": ["background_scripts/disboard-filter.mjs"],
+        "persistent": false,
+        "type": "module"
+    }
 }
