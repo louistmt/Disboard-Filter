@@ -2,6 +2,11 @@
     "manifest_version": 2,
     "version": "1.0",
     "name": "Disboard Filter",
+    "developer": {
+        "author": "louistmt",
+        "url": "https://github.com/louistmt"
+    },
+    "description": "Web extension to help filter out servers on Disboard, already seen or with banned tags.",
 
     "permissions": [
         "storage"
