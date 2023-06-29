@@ -4,8 +4,10 @@
   "description": "A small extension to filter out already seen servers on disboard",
   "main": "index.mjs",
   "scripts": {
+    "lint": "web-ext lint --source-dir=extension",
     "start": "web-ext run --source-dir=extension --verbose",
-    "build": "web-ext build --source-dir=extension --artifacts-dir=build"
+    "build": "web-ext build --source-dir=extension --artifacts-dir=build",
+    "test": "web-ext --version"
   },
   "keywords": [
     "extension",
@@ -13,5 +15,9 @@
   ],
   "author": "louistmt",
   "license": "ISC",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^111.0.1",
+    "web-ext": "^7.6.2"
+  }
 }
