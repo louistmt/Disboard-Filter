@@ -50,6 +50,24 @@ export function clearStore(db, name) {
 }
 
 /**
+ * @param {IDBDatabase} db
+ * @param {string} storeName
+ * @returns {Promise<number>}
+ */
+export function count(db, storeName) {
+    console.log("Count called");
+    
+    const transaction = db.transaction([storeName], "readonly");
+    const store = transaction.objectStore(storeName);
+
+    const request = store.count();
+    return new Promise((resolve, reject) => {
+        request.onsuccess = (ev) => {resolve(ev.target.result)};
+        request.onerror = reject;
+    });
+}
+
+/**
  * 
  * @param {IDBDatabase} db
  * @param {string} storeName

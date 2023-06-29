@@ -12,8 +12,8 @@ const db = await IDB.openDB("disboard-filter", {
 
 // Responds to type "filter" messages
 browser.runtime.onMessage.addListener((message, sender, reply) => {
-    console.log("filter replied");
     if (message.type === "filter") {
+        console.log("filter replied");
         handleFilter(message, reply);
         return true;
     } else {
@@ -23,9 +23,20 @@ browser.runtime.onMessage.addListener((message, sender, reply) => {
 
 // Responds to type "add-servers" messages
 browser.runtime.onMessage.addListener((message, sender, reply) => {
-    console.log("add-servers replied");
     if (message.type === "add-servers") {
+        console.log("add-servers replied");
         handleAddServers(message, reply);
+        return true;
+    } else {
+        return false;
+    }
+});
+
+// Responds to type "count-servers" messages
+browser.runtime.onMessage.addListener((message, sender, reply) => {
+    if (message.type === "count-servers") {
+        console.log("count-servers replied");
+        handleCountServers(message, reply);
         return true;
     } else {
         return false;
@@ -34,8 +45,8 @@ browser.runtime.onMessage.addListener((message, sender, reply) => {
 
 // Responds to type "clear-servers" messages
 browser.runtime.onMessage.addListener((message, sender, reply) => {
-    console.log("clear-servers replied");
     if (message.type === "clear-servers") {
+        console.log("clear-servers replied");
         handleClearServers(message, reply);
         return true;
     } else {
@@ -45,8 +56,8 @@ browser.runtime.onMessage.addListener((message, sender, reply) => {
 
 // Responds to type "update-tags" messages
 browser.runtime.onMessage.addListener((message, sender, reply) => {
-    console.log("update-tags replied");
     if (message.type === "update-tags") {
+        console.log("update-tags replied");
         handleUpdateTags(message, reply);
         return true;
     } else {
@@ -56,8 +67,8 @@ browser.runtime.onMessage.addListener((message, sender, reply) => {
 
 // Responds to type "get-tags" messages
 browser.runtime.onMessage.addListener((message, sender, reply) => {
-    console.log("get-tags replied");
     if (message.type === "get-tags") {
+        console.log("get-tags replied");
         handleGetTags(message, reply);
         return true;
     } else {
@@ -112,6 +123,15 @@ async function handleAddServers(message, reply) {
  * @param {any} message 
  * @param {(any: response) => void} reply 
  */
+async function handleCountServers(message, reply) {
+    reply(await IDB.count(db, VISITED_STORE));
+}
+
+/**
+ * 
+ * @param {any} message 
+ * @param {(any: response) => void} reply 
+ */
 async function handleClearServers(message, reply) {
     await IDB.clearStore(db, VISITED_STORE)
     reply("ok")
@@ -123,8 +143,10 @@ async function handleClearServers(message, reply) {
  * @param {(any: response) => void} reply 
  */
 async function handleUpdateTags(message, reply) {
-    console.log(handleUpdateTags.name, "has handle", message);
-    reply(`hello from ${handleUpdateTags.name}`);
+    const tags = message.data.map(t => {return {tag: t}});
+    await IDB.clearStore(db, TAGS_STORE);
+    await IDB.put(db, TAGS_STORE, ...tags);
+    reply("ok");
 }
 
 /**
@@ -133,6 +155,7 @@ async function handleUpdateTags(message, reply) {
  * @param {(any: response) => void} reply 
  */
 async function handleGetTags(message, reply) {
-    console.log(handleGetTags.name, "has handle", message);
-    reply(`hello from ${handleGetTags.name}`);
+    const entries = await IDB.getAll(db, TAGS_STORE);
+    const tags = entries.map(e => e.tag);
+    reply(tags);
 }

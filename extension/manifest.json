@@ -2,15 +2,32 @@
     "manifest_version": 2,
     "version": "1.0",
     "name": "Disboard Filter",
+
     "permissions": [
         "storage"
     ],
+
+    "icons": {
+        "48": "icons/icon.svg",
+        "96": "icons/icon.svg"
+    },
+
+    "browser_action": {
+        "default_icon": {
+            "19": "icons/icon.svg",
+            "38": "icons/icon.svg"   
+        },
+        "default_title": "Disboard Filter",
+        "default_popup": "popup/popup.html"
+    },
+
     "content_scripts": [
         {
             "matches": ["https://disboard.org/servers*"],
             "js": ["content_scripts/disboard-filter.js"]
         }
     ],
+
     "background": {
         "scripts": ["background_scripts/disboard-filter.mjs"],
         "persistent": false,
