@@ -6,7 +6,9 @@
   "scripts": {
     "lint": "web-ext lint --source-dir=extension",
     "start": "web-ext run --source-dir=extension --verbose",
-    "build": "web-ext build --source-dir=extension --artifacts-dir=build",
+    "clean": "del build\\*.zip",
+    "zip": "web-ext build --source-dir=extension --artifacts-dir=build",
+    "build": "npm run clean && npm run zip",
     "test": "web-ext --version"
   },
   "keywords": [
