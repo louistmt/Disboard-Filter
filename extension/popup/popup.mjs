@@ -8,6 +8,7 @@ document.getElementById("clear-visited").addEventListener("click", clearVisitedS
 
 setVisitedCount();
 setBannedTags();
+
 //
 // Functions
 //
@@ -28,9 +29,23 @@ async function updateBannedTags() {
     const textarea = document.getElementById("banned-tags");
     const tags = textarea.value.split(",").map(t => t.trim().toUpperCase());
     await browser.runtime.sendMessage({type: "update-tags", data: tags});
+    showSuccess();
 }
 
 async function clearVisitedServers() {
     await browser.runtime.sendMessage({type: "clear-servers"});
     setVisitedCount();
 }
+
+const showSuccess = (() => {
+    const button = document.getElementById("update-tags");
+    let timeoutId = undefined;
+
+    return () => {
+        button.classList.add("success");
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            button.classList.remove("success");
+        }, 3000);
+    };
+})();
